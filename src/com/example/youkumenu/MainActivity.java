@@ -2,34 +2,51 @@ package com.example.youkumenu;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
 
 
-public class MainActivity extends Activity {
-
+public class MainActivity extends Activity implements OnClickListener{
+	private String tag = MainActivity.class.getSimpleName();
+	private ImageView iv_home;
+	private boolean isShowLevel2 = true;//是否显示二级菜单
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        initView();
+        initListener();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+	private void initView() {
+		setContentView(R.layout.activity_main);
+		iv_home = (ImageView) findViewById(R.id.iv_home);
+		
+	}
+	
+	private void initListener() {
+		iv_home.setOnClickListener(this);
+	}
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.iv_home:
+			if (isShowLevel2) {
+				//需要隐藏
+				Log.e(tag, "执行隐藏");
+			}else {
+				//需要显示
+				Log.e(tag, "执行显示");
+			}
+			isShowLevel2 = !isShowLevel2;
+			break;
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+		default:
+			break;
+		}
+	}
+
 }
